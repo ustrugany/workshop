@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/static/normalize.css">
+  <link rel="stylesheet" href="/static/skeleton.css">
+  <link rel="icon" type="image/png" href="/static/favicon.ico">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="eleven columns" style="margin-top: 15%">
+      <div>
+        <div id="output"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    let output = document.getElementById("output");
+    let socket = new WebSocket("ws://127.0.0.1:8080/hello4");
+    socket.onopen = function () {
+        output.innerHTML += `<pre><code>Connected</code></pre>`;
+    };
+    socket.onmessage = function (e) {
+        let obj = JSON.parse(e.data);
+        console.log(obj)
+        const html = `<h4>${obj.quote}</h4>`;
+        output.innerHTML += html
+    };
+</script>
+</body>
+</html>

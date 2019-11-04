@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/static/normalize.css">
+  <link rel="stylesheet" href="/static/skeleton.css">
+  <link rel="icon" type="image/png" href="/static/favicon.ico">
+</head>
+<body>
+<script>
+    let output = document.getElementById("output");
+    let socket = new WebSocket("ws://127.0.0.1:8080/notify");
+    socket.onopen = function () {
+        output.innerHTML += `<div><pre><code>Connected</code></pre></div>`;
+    };
+    socket.onmessage = function (e) {
+        let obj = JSON.parse(e.data);
+        console.log(obj)
+        const html = `<a href="${obj.url}"><img class="img-thumbnail rounded float-left" src="${obj.src}" width="260px" height="185px"></a>`;
+        output.innerHTML += html
+    };
+</script>
+<div class="container">
+  <div class="row">
+    <div class="eleven columns" style="margin-top: 15%">
+      <div>
+        <div>
+            {{ range $key, $quote := .Quotes }}
+              <h4>{{ $quote.Content }}</h4>
+            {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
