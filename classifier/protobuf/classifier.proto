@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package model;
+
+service Classifier {
+  rpc Classify(Image) returns (Result) {}
+}
+
+message Image {
+  string path = 1;
+}
+
+message Result {
+  string name = 1;
+}

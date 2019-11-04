@@ -1,0 +1,23 @@
+config:
+  server:
+    port: "9999"
+    host: "https://partner-export.propertyfinderdata.com"
+    tmp_path: "/go/src/github.com/Propertyfinder/pf-go-partner-export/tmp"
+    protocol: "https"
+  s3:
+    access_key_id: AKIA6PSDU2TTRHZ2EVYU
+    secret_access_key: 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
+    region: ap-southeast-1
+    bucket: de-partner-export-data-stag-ap
+    credentials: 1
+  rabbitmq:
+    username: ""
+    password: ""
+    host: "rabbitmq-production-new.propertyfinder.local"
+    port: "5672"
+    vhost: "/production"
+    consumers:
+      etl:
+        exchange: "dco.personalization_consumer"
+        routing_key: "dco.personalization_consumer.ae"
+        queue: "dco.personalization_consumer.ae"

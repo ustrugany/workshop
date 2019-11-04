@@ -1,0 +1,34 @@
+PACKAGE := github.com/ustrugany/classifier
+DOCKER_REPOSITORY ?= 624165964329.dkr.ecr.ap-southeast-1.amazonaws.com
+DOCKER_IMAGE_TAG ?= latest
+DOCKER_IMAGE_VERSION ?= $(ENV)-$(DOCKER_IMAGE_TAG)
+BINARY ?= classifier
+
+build-app:
+	@echo "====================="
+	@echo "Build app"
+	@echo "====================="
+	docker-compose run --rm ${BINARY} bash -c '\
+		GO111MODULE=on GOOS=linux CGO_ENABLED=0 go build -mod=vendor -ldflags "-s -w -X ${PACKAGE}/pkg/meta.VERSION=${VERSION}"'
+
+build-image-app:
+	@echo "==================="
+	@echo "Build docker image for ${BINARY} app"
+	@echo "==================="
+	docker build -t ${DOCKER_REPOSITORY}/${BINARY}:${DOCKER_IMAGE_VERSION} -f ./.docker/app/Dockerfile .
+
+build-images: build-app build-image-app
+
+pull-images:
+	@echo "====================="
+	@echo "Pulling images"
+	@echo "====================="
+	docker-compose -f ${DOCKER_COMPOSE_FILE} pull
+
+push-image-app:
+	@echo "==================="
+	@echo "Running push images"
+	@echo "==================="
+	docker push ${DOCKER_REPOSITORY}/${BINARY}:${DOCKER_IMAGE_VERSION}
+
+push-images: push-image-app
