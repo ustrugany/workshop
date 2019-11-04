@@ -12,12 +12,16 @@ import (
 	"rsc.io/sampler"
 )
 
+// - this is what Go programmers talk about when they say “give your structs a useful zero value”
 type ZeroStruct struct {
-	Name     string
+	Name string
+	// - slices zero value is nil
 	Elements []string
 	Counter  int
 	Flag     bool
 	Channel  chan int
+	// - pointer zero value is nil
+	Pointer *ZeroStruct
 }
 
 // - data is grouped into structs

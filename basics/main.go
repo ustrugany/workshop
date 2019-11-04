@@ -27,7 +27,7 @@ func main() {
 	z.Elements = append(z.Elements, "one")
 	// - worth noting that slices are passed via values, and will not reflect changes from inside of function
 	func(elements []string) {
-		// - this addition created new copy of slice
+		// - this append created new copy of slice structure
 		elements = append(elements, "two")
 		fmt.Printf("%T %+v\n", elements, elements)
 	}(z.Elements)
